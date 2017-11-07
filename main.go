@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 )
 
 type payloadModel struct {
@@ -20,11 +21,15 @@ func testEndpoint(response http.ResponseWriter, request *http.Request) {
 	}
 	fmt.Println(payload.Name)
 	defer request.Body.Close()
-	io.WriteString(response, "Hello World!")
+	io.WriteString(response, "Hello Go World!")
 }
 
 func main() {
 	fmt.Println("startup")
 	http.HandleFunc("/test2", testEndpoint)
-	http.ListenAndServe(":8082", nil)
+	fmt.Println("listening...")
+	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+	if err != nil {
+			panic(err)
+	}
 }
