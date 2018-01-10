@@ -21,7 +21,8 @@ func testEndpoint(response http.ResponseWriter, request *http.Request) {
 	}
 	fmt.Println(payload.Name)
 	defer request.Body.Close()
-	io.WriteString(response, "Hello Go World!")
+	response.Header().Set("Content-Type", "text/plain")
+	io.WriteString(response, "Hello Go World!\n")
 }
 
 func main() {
